@@ -13,7 +13,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     //Need Keys to pass information
     private static final String EXTRA_PIZZA_TACO_COUNT = "com.carson.android.survey.pizza__taco_count";
-    private static final String EXTRA_TACO_COUNT = "com.carson.android.survey.taco_count";
+
 
 
 
@@ -63,8 +63,6 @@ public class ResultsActivity extends AppCompatActivity {
                 String tacoString = String.valueOf(taco);
                 mTacoCount.setText(tacoString);
             }
-
-            //function to send strings to results_activity
 
         });
 

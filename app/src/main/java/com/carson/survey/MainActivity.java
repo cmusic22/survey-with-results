@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         mResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent intent = ResultsActivity.newIntent(MainActivity.this, pizza, taco);
                 startActivityForResult(intent, REQUEST_CODE_RESULTS);
             }
