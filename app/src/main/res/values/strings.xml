@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Survey</string>
+    <string name="survey_question">You can only eat one thing for the rest of your life. What do you choose? Pizza or Tacos</string>
+    <string name="pizza">Pizza</string>
+    <string name="tacos">Tacos</string>
+    <string name="reset">Reset</string>
+    <string name="results">Results</string>
+    <string name="continue_survey">Continue Survey</string>
+</resources>
