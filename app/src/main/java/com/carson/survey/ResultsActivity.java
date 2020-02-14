@@ -9,10 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 public class ResultsActivity extends AppCompatActivity {
 
     //Need Keys to pass information
-    private static final String EXTRA_PIZZA_TACO_COUNT = "com.carson.android.survey.pizza__taco_count";
+    public static final String EXTRA_PIZZA_COUNT = "com.carson.android.survey.pizza_count";
+    public static final String EXTRA_TACO_COUNT = "com.carson.android.survey.taco_count";
+
+    public static final String EXTRA_RESET_COUNT = "com.carson.android.survey.reset_survey";
 
 
 
@@ -22,25 +26,19 @@ public class ResultsActivity extends AppCompatActivity {
     TextView mPizzaCount;
     TextView mTacoCount;
 
-    public static Intent newIntent(Context packageContext, int pizza, int taco){
-        Intent intent = new Intent(packageContext, ResultsActivity.class);
-        intent.putExtra(EXTRA_PIZZA_TACO_COUNT, pizza, taco);
-        return intent;
-    }
-
-    int pizzaCount = getIntent().getIntExtra(EXTRA_PIZZA_TACO_COUNT, pizza);
-    int tacoCount = getIntent().getIntExtra(EXTRA_PIZZA_TACO_COUNT, taco);
+    String tacoString = getIntent().getStringExtra(EXTRA_TACO_COUNT);
+    String pizzaString = getIntent().getStringExtra(EXTRA_PIZZA_COUNT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
+       setContentView(R.layout.activity_results);
 
         //set results for pizza and tacos
-        String pizzaString = String.valueOf(pizzaCount);
+
         mPizzaCount.setText(pizzaString);
 
-        String tacoString = String.valueOf(tacoCount);
+
         mTacoCount.setText(tacoString);
 
         //Target visual elements
@@ -56,12 +54,7 @@ public class ResultsActivity extends AppCompatActivity {
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pizza = 0;
-                String pizzaString = String.valueOf(pizza);
-                mPizzaCount.setText(pizzaString);
-                int taco = 0;
-                String tacoString = String.valueOf(taco);
-                mTacoCount.setText(tacoString);
+                setResetButton(true);
             }
 
         });
@@ -71,7 +64,19 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //bring back to MainActivity.java
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra(EXTRA_PIZZA_COUNT, pizzaString);
+                returnIntent.putExtra(EXTRA_TACO_COUNT, tacoString);
+                setResult(RESULT_OK, returnIntent);
+                finish();
+
             }
         });
+    }
+
+    private void setResetButton(boolean reset) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_RESET_COUNT, reset);
+        setResult(RESULT_OK, data);
     }
 }

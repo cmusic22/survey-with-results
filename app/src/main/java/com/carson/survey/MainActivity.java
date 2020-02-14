@@ -2,15 +2,21 @@ package com.carson.survey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static com.carson.survey.ResultsActivity.EXTRA_PIZZA_COUNT;
+import static com.carson.survey.ResultsActivity.EXTRA_TACO_COUNT;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_RESULTS = 0;
+    public static final int REQUEST_CODE_RESULTS = 0;
+
 
     Button mPizzaButton;
     Button mTacoButton;
@@ -44,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (pizza == 0 & taco == 0){
-            taco = 0;
-            pizza = 0;
             String pizzaString = String.valueOf(pizza);
             mPizzaCount.setText(pizzaString);
             String tacoString = String.valueOf(taco);
@@ -92,8 +96,12 @@ public class MainActivity extends AppCompatActivity {
         mResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ResultsActivity.newIntent(MainActivity.this, pizza, taco);
-                startActivityForResult(intent, REQUEST_CODE_RESULTS);
+                String pizzaString = String.valueOf(pizza);
+                String tacoString = String.valueOf(taco);
+                Intent resultsIntent = new Intent (MainActivity.this, ResultsActivity.class);
+                resultsIntent.putExtra(EXTRA_PIZZA_COUNT, pizzaString);
+                resultsIntent.putExtra(EXTRA_TACO_COUNT, tacoString);
+                startActivityForResult(resultsIntent, REQUEST_CODE_RESULTS);
             }
         });
 
@@ -105,4 +113,25 @@ public class MainActivity extends AppCompatActivity {
         outBundle.putInt(SURVEY_KEY_PIZZA, pizza);
         outBundle.putInt(SURVEY_KEY_TACO, taco);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Boolean reset = data.getBooleanExtra(EXTRA_RESET_COUNT);
+        if (requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_OK){
+            String countOfPizza = data.getStringExtra(EXTRA_PIZZA_COUNT);
+            String countOfTaco = data.getStringExtra(EXTRA_TACO_COUNT);
+
+
+
+            mTacoCount.setText(countOfTaco);
+            mPizzaCount.setText(countOfPizza);
+
+        }
+
+        if(requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_CANCELED){
+            //put a result
+        }
+    }
+
+
 }
