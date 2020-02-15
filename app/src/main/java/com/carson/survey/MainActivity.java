@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mPizzaCount = findViewById(R.id.pizza_count);
         mTacoCount = findViewById(R.id.taco_count);
         mResetButton = findViewById(R.id.reset_button);
-        mResetButton = findViewById(R.id.results_button);
+        mResultsButton = findViewById(R.id.results_button);
         //save instance state --- need to finish
         if (savedInstanceState != null){
             pizza = savedInstanceState.getInt(SURVEY_KEY_PIZZA, 0);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent resultsIntent = new Intent (MainActivity.this, ResultsActivity.class);
                 resultsIntent.putExtra(EXTRA_PIZZA_COUNT, pizzaString);
                 resultsIntent.putExtra(EXTRA_TACO_COUNT, tacoString);
-                startActivityForResult(resultsIntent, REQUEST_CODE_RESULTS);
+                startActivity(resultsIntent);
             }
         });
 
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //Boolean reset = data.getBooleanExtra(EXTRA_RESET_COUNT);
         if (requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_OK){
             String countOfPizza = data.getStringExtra(EXTRA_PIZZA_COUNT);

@@ -2,7 +2,7 @@ package com.carson.survey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+//import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,20 +26,18 @@ public class ResultsActivity extends AppCompatActivity {
     TextView mPizzaCount;
     TextView mTacoCount;
 
-    String tacoString = getIntent().getStringExtra(EXTRA_TACO_COUNT);
-    String pizzaString = getIntent().getStringExtra(EXTRA_PIZZA_COUNT);
+    Intent intent = getIntent();
+
+    String tacoString = intent.getStringExtra(EXTRA_TACO_COUNT);
+    String pizzaString = intent.getStringExtra(EXTRA_PIZZA_COUNT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_results);
 
-        //set results for pizza and tacos
-
-        mPizzaCount.setText(pizzaString);
 
 
-        mTacoCount.setText(tacoString);
 
         //Target visual elements
         mResetButton = findViewById(R.id.reset_button);
@@ -47,7 +45,10 @@ public class ResultsActivity extends AppCompatActivity {
         mPizzaCount = findViewById(R.id.pizza_count);
         mTacoCount = findViewById(R.id.taco_count);
 
+        //set results for pizza and tacos
 
+        mPizzaCount.setText(pizzaString);
+        mTacoCount.setText(tacoString);
 
 
         //reset button function
