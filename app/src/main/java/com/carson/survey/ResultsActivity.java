@@ -26,18 +26,18 @@ public class ResultsActivity extends AppCompatActivity {
     TextView mPizzaCount;
     TextView mTacoCount;
 
-    Intent intent = getIntent();
 
-    String tacoString = intent.getStringExtra(EXTRA_TACO_COUNT);
-    String pizzaString = intent.getStringExtra(EXTRA_PIZZA_COUNT);
+
+    int taco, pizza;
+    Boolean reset = Boolean.FALSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_results);
-
-
-
+        setContentView(R.layout.activity_results);
+        Intent intent = getIntent();
+        taco = intent.getIntExtra(EXTRA_TACO_COUNT, 0);
+        pizza = intent.getIntExtra(EXTRA_PIZZA_COUNT, 0);
 
         //Target visual elements
         mResetButton = findViewById(R.id.reset_button);
@@ -46,16 +46,24 @@ public class ResultsActivity extends AppCompatActivity {
         mTacoCount = findViewById(R.id.taco_count);
 
         //set results for pizza and tacos
-
+        String pizzaString = String.valueOf(pizza);
         mPizzaCount.setText(pizzaString);
+        String tacoString = String.valueOf(taco);
         mTacoCount.setText(tacoString);
-
 
         //reset button function
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResetButton(true);
+                pizza = 0;
+                taco = 0;
+                String pizzaString = String.valueOf(pizza);
+                mPizzaCount.setText(pizzaString);
+                String tacoString = String.valueOf(taco);
+                mTacoCount.setText(tacoString);
+                reset = Boolean.TRUE;
+
+
             }
 
         });
@@ -66,8 +74,9 @@ public class ResultsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //bring back to MainActivity.java
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra(EXTRA_PIZZA_COUNT, pizzaString);
-                returnIntent.putExtra(EXTRA_TACO_COUNT, tacoString);
+                returnIntent.putExtra(EXTRA_PIZZA_COUNT, pizza);
+                returnIntent.putExtra(EXTRA_TACO_COUNT, taco);
+                returnIntent.putExtra(EXTRA_RESET_COUNT, reset);
                 setResult(RESULT_OK, returnIntent);
                 finish();
 
@@ -75,9 +84,5 @@ public class ResultsActivity extends AppCompatActivity {
         });
     }
 
-    private void setResetButton(boolean reset) {
-        Intent data = new Intent();
-        data.putExtra(EXTRA_RESET_COUNT, reset);
-        setResult(RESULT_OK, data);
-    }
+
 }

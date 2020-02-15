@@ -11,7 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.carson.survey.ResultsActivity.EXTRA_PIZZA_COUNT;
+import static com.carson.survey.ResultsActivity.EXTRA_RESET_COUNT;
 import static com.carson.survey.ResultsActivity.EXTRA_TACO_COUNT;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null){
             pizza = savedInstanceState.getInt(SURVEY_KEY_PIZZA, 0);
             taco = savedInstanceState.getInt(SURVEY_KEY_TACO, 0);
+
+            String tacoString = String.valueOf(taco);
+            mTacoCount.setText(tacoString);
+            String pizzaString = String.valueOf(pizza);
+            mPizzaCount.setText(pizzaString);
         }
 
         if (pizza == 0 & taco == 0){
@@ -96,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
         mResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pizzaString = String.valueOf(pizza);
-                String tacoString = String.valueOf(taco);
+                //String pizzaString = String.valueOf(pizza);
+                //String tacoString = String.valueOf(taco);
                 Intent resultsIntent = new Intent (MainActivity.this, ResultsActivity.class);
-                resultsIntent.putExtra(EXTRA_PIZZA_COUNT, pizzaString);
-                resultsIntent.putExtra(EXTRA_TACO_COUNT, tacoString);
+                resultsIntent.putExtra(EXTRA_PIZZA_COUNT, pizza);
+                resultsIntent.putExtra(EXTRA_TACO_COUNT, taco);
                 startActivity(resultsIntent);
             }
         });
@@ -117,20 +125,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Boolean reset = data.getBooleanExtra(EXTRA_RESET_COUNT);
+
         if (requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_OK){
-            String countOfPizza = data.getStringExtra(EXTRA_PIZZA_COUNT);
-            String countOfTaco = data.getStringExtra(EXTRA_TACO_COUNT);
+            Boolean reset = data.getBooleanExtra(ResultsActivity.EXTRA_RESET_COUNT, false);
+            if (reset != FALSE) {
+                pizza = 0;
+                taco = 0;
+                String pizzaString = String.valueOf(pizza);
+                String tacoString = String.valueOf(taco);
+                mTacoCount.setText(tacoString);
+                mPizzaCount.setText(pizzaString);
 
+            }else{
+                pizza = data.getIntExtra(EXTRA_PIZZA_COUNT, 0);
+                taco = data.getIntExtra(EXTRA_TACO_COUNT, 0);
 
-
-            mTacoCount.setText(countOfTaco);
-            mPizzaCount.setText(countOfPizza);
-
+                String countOfTaco = String.valueOf(taco);
+                mTacoCount.setText(countOfTaco);
+                String countOfPizza = String.valueOf(pizza);
+                mPizzaCount.setText(countOfPizza);
+            }
         }
 
         if(requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_CANCELED){
-            //put a result
+            pizza = data.getIntExtra(EXTRA_PIZZA_COUNT, 0);
+            taco = data.getIntExtra(EXTRA_TACO_COUNT, 0);
+
+            String countOfTaco = String.valueOf(taco);
+            mTacoCount.setText(countOfTaco);
+            String countOfPizza = String.valueOf(pizza);
+            mPizzaCount.setText(countOfPizza);
         }
     }
 
