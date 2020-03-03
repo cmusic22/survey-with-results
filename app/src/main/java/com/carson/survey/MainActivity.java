@@ -13,8 +13,7 @@ import android.widget.Toast;
 import static com.carson.survey.ResultsActivity.EXTRA_PIZZA_COUNT;
 import static com.carson.survey.ResultsActivity.EXTRA_RESET_COUNT;
 import static com.carson.survey.ResultsActivity.EXTRA_TACO_COUNT;
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent resultsIntent = new Intent (MainActivity.this, ResultsActivity.class);
                 resultsIntent.putExtra(EXTRA_PIZZA_COUNT, pizza);
                 resultsIntent.putExtra(EXTRA_TACO_COUNT, taco);
-                startActivity(resultsIntent);
+                startActivityForResult(resultsIntent, REQUEST_CODE_RESULTS);
             }
         });
 
@@ -127,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_RESULTS && resultCode == RESULT_OK){
-            Boolean reset = data.getBooleanExtra(ResultsActivity.EXTRA_RESET_COUNT, false);
-            if (reset != FALSE) {
+            boolean reset = data.getBooleanExtra(ResultsActivity.EXTRA_RESET_COUNT, false);
+            if (reset) {
                 pizza = 0;
                 taco = 0;
                 String pizzaString = String.valueOf(pizza);

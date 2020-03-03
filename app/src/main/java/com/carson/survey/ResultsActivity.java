@@ -29,7 +29,7 @@ public class ResultsActivity extends AppCompatActivity {
 
 
     int taco, pizza;
-    Boolean reset = Boolean.FALSE;
+    boolean reset = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class ResultsActivity extends AppCompatActivity {
                 mPizzaCount.setText(pizzaString);
                 String tacoString = String.valueOf(taco);
                 mTacoCount.setText(tacoString);
-                reset = Boolean.TRUE;
+                reset = true;
 
 
             }
